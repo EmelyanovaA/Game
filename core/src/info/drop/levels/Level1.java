@@ -17,6 +17,9 @@ import info.drop.human.Human;
 
 public class Level1 implements Screen{
 
+    final int width = 800;
+    final int height = 480;
+
     int iUp = 0;
 
     boolean up = false;
@@ -57,7 +60,7 @@ public class Level1 implements Screen{
         touchPos = new Vector3();
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,800,480);
+        camera.setToOrtho(false, width, height);
 
         batch = new SpriteBatch();
         //Кнопка вниз
@@ -87,72 +90,53 @@ public class Level1 implements Screen{
 
         //Отрисока
         game.batch.begin();
-        game.batch.draw(buttonLeft, rectangelLeft.x, rectangelLeft.y);//Кнопка влево
-        game.batch.draw(buttonRight, rectangelRight.x, rectangelRight.y);//Кнопка вправо
-        game.batch.draw(buttonUp, rectangelUp.x, rectangelUp.y);//Кнопка вверх
+        //Кнопка влево
+        game.batch.draw(buttonLeft, rectangelLeft.x, rectangelLeft.y);
+        //Кнопка вправо
+        game.batch.draw(buttonRight, rectangelRight.x, rectangelRight.y);
+        //Кнопка вверх
+        game.batch.draw(buttonUp, rectangelUp.x, rectangelUp.y);
 
         //балки
         game.batch.draw(balka, 10, 300);
         game.batch.draw(downpalka, 0, 80);
         game.batch.draw(leftpalka, 0, 20);
-
-        game.batch.draw(human,rectangleHuman.x,rectangleHuman.y);//Человечек
+        //Человечек
+        game.batch.draw(human,rectangleHuman.x,rectangleHuman.y);
         game.batch.end();
 
-        //Нажатие кнопки влево
-        if(Gdx.input.isTouched(0)){
-            touchPos.set(Gdx.input.getX(0), Gdx.input.getY(0), 0);
-            camera.unproject(touchPos);
-            if(touchPos.x >= 20 && touchPos.x <= 80 && touchPos.y >= 20 && touchPos.y <= 80){
-                rectangleHuman.x -= 5;
-                human = new Texture("humanLeft.png");
+        //Мультитач
+        for (int i = 0; i < 2; i++) {
+            //Нажатие кнопки влево
+            if (Gdx.input.isTouched(i)) {
+                touchPos.set(Gdx.input.getX(i), Gdx.input.getY(i), 0);
+                camera.unproject(touchPos);
+                if (touchPos.x >= 20 && touchPos.x <= 80 && touchPos.y >= 20 && touchPos.y <= 80) {
+                    rectangleHuman.x -= 5;
+                    human = new Texture("humanLeft.png");
+                }
             }
-        }
-        if(Gdx.input.isTouched(1)){
-            touchPos.set(Gdx.input.getX(1), Gdx.input.getY(1), 0);
-            camera.unproject(touchPos);
-            if(touchPos.x >= 20 && touchPos.x <= 80 && touchPos.y >= 20 && touchPos.y <= 80){
-                rectangleHuman.x -= 5;
-                human = new Texture("humanLeft.png");
-            }
-        }
 
-        //Нажатие кнопки вправо
-        if(Gdx.input.isTouched(0)) {
-            touchPos.set(Gdx.input.getX(0), Gdx.input.getY(0), 0);
-            camera.unproject(touchPos);
-            if (touchPos.x >= 100 && touchPos.x <= 160 && touchPos.y >= 20 && touchPos.y <= 80) {
-                rectangleHuman.x += 5;
-                human = new Texture("humanRight.png");
+            //Нажатие кнопки вправо
+            if (Gdx.input.isTouched(i)) {
+                touchPos.set(Gdx.input.getX(i), Gdx.input.getY(i), 0);
+                camera.unproject(touchPos);
+                if (touchPos.x >= 100 && touchPos.x <= 160 && touchPos.y >= 20 && touchPos.y <= 80) {
+                    rectangleHuman.x += 5;
+                    human = new Texture("humanRight.png");
+                }
             }
-        }
-        if(Gdx.input.isTouched(1)) {
-            touchPos.set(Gdx.input.getX(1), Gdx.input.getY(1), 0);
-            camera.unproject(touchPos);
-            if (touchPos.x >= 100 && touchPos.x <= 160 && touchPos.y >= 20 && touchPos.y <= 80) {
-                rectangleHuman.x += 5;
-                human = new Texture("humanRight.png");
-            }
-        }
 
-        //Нажатие кнопки вверх
-        if(Gdx.input.isTouched(0)){
-            touchPos.set(Gdx.input.getX(0), Gdx.input.getY(0), 0);
-            camera.unproject(touchPos);
-            if (touchPos.x >= 700 && touchPos.x <= 760 && touchPos.y >= 20 && touchPos.y <=80 && !gravity) {
-                up = true;
-                gravity = true;
+            //Нажатие кнопки вверх
+            if (Gdx.input.isTouched(i)) {
+                touchPos.set(Gdx.input.getX(i), Gdx.input.getY(i), 0);
+                camera.unproject(touchPos);
+                if (touchPos.x >= 700 && touchPos.x <= 760 && touchPos.y >= 20 && touchPos.y <= 80 && !gravity) {
+                    up = true;
+                    gravity = true;
+                }
             }
         }
-        if (Gdx.input.isTouched(1)){
-            touchPos.set(Gdx.input.getX(1), Gdx.input.getY(1), 0);
-            camera.unproject(touchPos);
-            if (touchPos.x >= 700 && touchPos.x <= 760 && touchPos.y >= 20 && touchPos.y <=80 && !gravity) {
-                up = true;
-                gravity = true;
-            }
-        }
-
         //Выход за границы
         if(rectangleHuman.x < 10){
             rectangleHuman.x = 10;
